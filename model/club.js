@@ -1,4 +1,5 @@
 var Model = require("./base");
-var CheckinModel = new Model("club");
+var CheckinModel = require("./checkin");
+var ClubModel = new Model("club");
 
-module.exports = CheckinModel;
+module.exports = ClubModel;

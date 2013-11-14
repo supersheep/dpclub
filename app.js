@@ -31,6 +31,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', home);
+app.get('/club/:id', home);
 
 app.post('/api/checkin', checkin.add);
 app.get('/api/club', club.getlist);
