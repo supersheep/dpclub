@@ -14,13 +14,12 @@ function addZero(id,num){
 }
 
 exports.getNameById = function(id,callback){
-	return callback(null,"jiayi");
 	// return callback(null,undefined);
-	var url = "http://192.168.26.167/groupcheckin/get_name_by_no.php?no=" + addZero(id,7);
+	var url = "http://cenalulu.no-ip.org:5080/groupcheckin/get_name_by_no.php?no=" + addZero(id,7);
 	
 	request.get(url,function(err,res,data){
-		if(data === ""){
-			callback("memberId not found");
+		if(data === "查询失败"){
+			callback("工号不存在");
 		}else{
 			callback(err,data);	
 		}

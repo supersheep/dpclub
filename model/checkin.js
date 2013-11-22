@@ -30,5 +30,5 @@ CheckinModel.isMemberCheckedToday = function(clubId,memberId,callback){
 }
 
 CheckinModel.getHistoryByClubId = function(clubId,callback){
-    this.db.query("select * from " + this.table + " where clubId = ? order by id desc limit 0,50",clubId,callback);
+    this.db.query("select * from " + this.table + " where clubId = ? order by id limit 0,50",clubId,callback);
 }
