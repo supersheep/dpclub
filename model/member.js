@@ -4,7 +4,7 @@ function addZero(id,num){
 	id = id+"";
 	var zeros = "";
 	if(id.length < num){
-		for(var i =0;i<num-length;i++){
+		for(var i =0;i<num-id.length;i++){
 			zeros+="0";
 		}
 		return zeros+id;
