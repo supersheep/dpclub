@@ -1,0 +1,8 @@
+#btn-empty{
+	display: block;
+	width: 100%;
+}
+
+.list-group-item a{
+	display: block
+}
