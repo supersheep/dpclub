@@ -1,2 +1,4 @@
+start
+*.log
 node_modules
 config.js
