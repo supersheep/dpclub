@@ -1,0 +1,7 @@
+<ul class="list-group">
+	<% items.forEach(function(item){ %>
+	<li class="list-group-item">
+		<a href="/club/<%= item.id %>"><%= item.name %></a>
+	</li>
+	<% }); %>
+</ul>

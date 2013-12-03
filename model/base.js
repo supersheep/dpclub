@@ -7,8 +7,8 @@ var Model = function(table){
 };
 
 
-Model.prototype.getById = function(id,cb){
-	this.db.query("select * from " + this.table + " where id=?",[id],function(err,rows){
+Model.prototype.one = function(where,cb){
+	this.db.query("select * from " + this.table + " where ?",where,function(err,rows){
 		if(err){
 			return cb(err);
 		}else{
@@ -17,6 +17,15 @@ Model.prototype.getById = function(id,cb){
 	});
 };
 
+Model.prototype.find = function(where,cb){
+	this.db.query("select * from " + this.table + " where ?", where, function(err,rows){
+		if(err){
+			return cb(err);
+		}else{
+			cb(null,rows);
+		}
+	});
+}
 
 Model.prototype.getAll = function(cb){
 	this.db.query("select * from " + this.table, function(err,rows){

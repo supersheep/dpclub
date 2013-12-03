@@ -1,8 +1,39 @@
-#btn-empty{
+#btn-checkin,
+#btn-create-activity,
+#main .form-control,
+#main .btn{
 	display: block;
 	width: 100%;
+	margin-bottom: 10px;
 }
 
 .list-group-item a{
-	display: block
+	display: block;
+}
+
+.list-group-item .time{
+	float: right;
+	color: #999;
+}
+
+#qr{
+	text-align: center
+}
+
+#qr img{
+	width: 400px;
+	height: 400px;
+}
+
+.print-only{
+	display:none;
+}
+
+@media print{
+	nav,.btn{
+		display: none !important;
+	}
+	.print-only{
+		display:block;
+	}
 }

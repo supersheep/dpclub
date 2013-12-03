@@ -9,6 +9,8 @@ var path = require('path');
 
 var checkin = require("./routes/api/checkin");
 var club = require("./routes/api/club");
+var activity = require("./routes/api/activity");
+
 var home = require("./routes/home");
 
 var app = express();
@@ -31,12 +33,19 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', home);
-app.get('/club/:id', home);
+app.get('/club/:id/activity', home);
+app.get('/activity/create', home);
+app.get('/activity/:id', home);
+app.get('/activity/:id/qr', home);
 
-app.post('/api/checkin', checkin.add);
-app.get('/api/club', club.getlist);
-app.get('/api/club/:id', club.checkin_history);
+app.get('/api/club', club.list);
+app.get('/api/club/:id/activity', club.activity);
 
+app.post('/api/activity/create', activity.create);
+app.get('/api/activity/:id', activity.one);
+app.get('/api/activity/:id/checkin', activity.checkins);
+
+app.post('/api/checkin/add', checkin.add);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

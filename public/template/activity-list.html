@@ -1,0 +1,8 @@
+<a href="/activity/create?club=<%= id %>" class="btn btn-default" id="btn-create-activity" type="button" data-toggle="collapse">创建活动</a>
+<ul class="list-group">
+	<% items.forEach(function(item){ %>
+	<li class="list-group-item">
+		<a href="/activity/<%= item.id %>"><%= item.title %><span class="time"><%= item.time %></span></a>
+	</li>
+	<% }); %>
+</ul>
