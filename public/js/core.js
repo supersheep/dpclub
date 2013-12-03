@@ -160,10 +160,10 @@ var app = (function(){
     function resolveFactory(define){
         return function(params){
             // passing router around is sucks, so lets parse them all here
-            var def = resolveParams({
+            var def = resolveParams($.extend(true,{},{
                 data:define.data,
                 template:define.template
-            },params);
+            }),params);
 
             var deferred = $.Deferred();
 
