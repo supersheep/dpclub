@@ -8,7 +8,7 @@ var Model = function(table){
 
 
 Model.prototype.one = function(where,cb){
-	this.db.query("select * from " + this.table + " where ?",where,function(err,rows){
+	this.find(where,function(err,rows){
 		if(err){
 			return cb(err);
 		}else{

@@ -1,9 +1,11 @@
 var Model = require("./base");
 var CheckinModel = new Model("checkin");
+var hook = require("../util/webhook");
 
 module.exports = CheckinModel;
 
 CheckinModel.add = function(data,callback){
+    hook.trigger(data.clubId,"checkin.add",data);
 	this.db.query("insert into " + this.table + " set ?",data,function(err,results){
         if(err){
             return callback(err);
