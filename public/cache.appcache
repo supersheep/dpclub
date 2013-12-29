@@ -1,0 +1,22 @@
+CACHE MANIFEST
+
+# VERSION 0.4 
+
+# 直接缓存的文件
+CACHE:
+js/jquery-2.0.3.min.js
+js/history.min.js
+js/template.js
+css/bootstrap.min.css
+
+
+# 需要在时间在线的文件
+NETWORK:
+/api/
+/template/
+/js/core.js
+/js/app.js
+/css/app.css
+
+# 替代方案
+# FALLBACK:
