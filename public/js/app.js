@@ -90,7 +90,7 @@ dpclub.controller("activity-create",function(router,deps){
 dpclub.controller("activity-qr",function(router,deps){
     $("#main").html(this.render(deps.template,{
         activity: deps.data,
-        url: encodeURIComponent(location.protocol + "//" + location.host + "/activity/" + deps.data.id + "#from=qr")
+        url: encodeURIComponent(location.protocol + "//" + location.host + "/activity/" + deps.data.id)
     }));
 });
 
