@@ -1,19 +1,19 @@
 /**
- * 数据订正
+ * 导入用户
  */
 var db = require("./db");
 var async = require("async");
 var request = require("request");
 var member = require("./model/member")
 
-db.connection.query("select * from checkin where memberName=\"\"", function(err,rows){
+db.connection.query("select DISTINCT memberId,memberName from checkin", function(err,rows){
     if(err){
-        return cb(err);
+        throw err;
     }else{
         var tasks = [];
         rows.forEach(function(row){
             tasks.push(function(done){
-                update(row,done);
+                insert(row,done);
             });
         });
         async.series(tasks,function(err){
@@ -28,14 +28,16 @@ db.connection.query("select * from checkin where memberName=\"\"", function(err,
 });
 
 
-function update(row,done){
+function insert(row,done){
     var id = row.memberId;
-    member.getNameById(id,function(err,name){
-        if(err){return done(err);}
-        var query = "update checkin set memberName=\"" + name + "\" where id=" + row.id;
-        console.log(query);
-        db.connection.query(query,function(){
-            done(null);
-        });
+
+    var query = "insert into member (name,number,companyId) values ("
+        +"\"" + row.memberName + "\","
+        + row.memberId + ","
+        + 1
+        +")";
+    console.log(query);
+    db.connection.query(query,function(){
+        done(null);
     });
 }
