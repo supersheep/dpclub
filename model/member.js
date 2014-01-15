@@ -22,8 +22,9 @@ function addZero(id,num){
 MemberModel.getNameById = function(id,callback){
     // return callback(null,undefined);
     var url = config.urls.get_name_by_no + "?no=" + addZero(id,7);
+    var db = this.db;
 
-    this.db.query("select name from member where number=?",id,function(err,results){
+    db.query("select name from member where number=?",id,function(err,results){
         if(err){
             return callback(err);
         }else{
@@ -33,6 +34,11 @@ MemberModel.getNameById = function(id,callback){
                         callback("工号不存在");
                     }else{
                         callback(err,data);
+                        db.query("insert into member set ?",{
+                            name:data,
+                            number:id,
+                            companyId:1
+                        });
                     }
                 });
             }else{
