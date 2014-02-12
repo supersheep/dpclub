@@ -15,6 +15,10 @@ var home = require("./routes/home");
 
 var app = express();
 
+process.on("uncaughtException",function(e){
+    console.error(e);
+});
+
 // all environments
 app.set('port', process.env.PORT || 3011);
 app.set('views', path.join(__dirname, 'views'));
