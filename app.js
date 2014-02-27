@@ -12,11 +12,18 @@ var club = require("./routes/api/club");
 var activity = require("./routes/api/activity");
 
 var home = require("./routes/home");
+var mailer = require("./util/mailer");
 
 var app = express();
 
 process.on("uncaughtException",function(e){
     console.error(e);
+    var config = {
+        to:"jiayi.xu@dianping.com",
+        subject:"DPClub Error",
+        html: (new Date()).toString() + " <br />" + e.toString()
+    };
+    mailer.send(config,function(){});
 });
 
 // all environments

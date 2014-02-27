@@ -29,16 +29,23 @@ MemberModel.getNameById = function(id,callback){
             return callback(err);
         }else{
             if(results.length == 0){
-                request.get(url,function(err,res,data){
+                request({
+                    url:url,
+                    timeout: 1000
+                },function(err,res,data){
                     if(data === "查询失败"){
                         callback("工号不存在");
                     }else{
-                        callback(err,data);
-                        db.query("insert into member set ?",{
-                            name:data,
-                            number:id,
-                            companyId:1
-                        });
+                        if(err){
+                            return callback(err);
+                        }else{
+                            callback(null,data);
+                            db.query("insert into member set ?",{
+                                name:data,
+                                number:id,
+                                companyId:1
+                            });
+                        }
                     }
                 });
             }else{
