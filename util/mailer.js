@@ -1,7 +1,7 @@
 var mailer = require("nodemailer");
 var config = require("../config");
 
-var transport = mailer.createTransport("QQex",{
+var transport = mailer.createTransport(config.mailer.provider,{
     auth:{
         user: config.mailer.user,
         pass: config.mailer.password
