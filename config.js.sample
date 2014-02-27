@@ -5,6 +5,11 @@ module.exports = {
 		"user":"root",
 		"password":""
 	},
+    "mailer":{
+        "provider":"gmail",
+        "user":"xxx@gmail.com",
+        "password":"xxxxxx"
+    },
 	"urls":{
 		"get_name_by_no":"ni dong de"
 	}
