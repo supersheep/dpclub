@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-# VERSION 0.4 
+# VERSION 0.4
 
 # 直接缓存的文件
 CACHE:
@@ -15,6 +15,7 @@ NETWORK:
 http://dpurl.cn/
 /api/
 /template/
+/img/logos/
 /js/core.js
 /js/app.js
 /css/app.css

@@ -7,6 +7,13 @@
 	margin-bottom: 10px;
 }
 
+.navbar {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	z-index: 2;
+}
+
 .list-group-item a{
 	display: block;
 }
@@ -14,6 +21,46 @@
 .list-group-item .time{
 	float: right;
 	color: #999;
+}
+
+#club-list{
+	margin-top: 70px;
+	border-right: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+}
+
+
+#club-list:after{
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.club-item{
+	border-color: #eee;
+	float:left;
+	text-align: center;
+	width:33.33%;
+	border-right: 0;
+	border-bottom: 0;
+	border-radius: 0;
+}
+
+
+.club-item:first-child{
+	border-radius: 0;
+}
+
+.club-item:hover{
+	background-color: #eee;
+}
+
+.club-item img{
+	width: 100%
+}
+
+.club-item .name{
+	margin-top: 10px;
 }
 
 #qr{

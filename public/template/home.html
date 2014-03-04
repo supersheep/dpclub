@@ -1,7 +1,10 @@
-<ul class="list-group">
+<ul class="list-group"  id="club-list">
 	<% items.forEach(function(item){ %>
-	<li class="list-group-item">
-		<a href="/club/<%= item.id %>/activity"><%= item.name %></a>
+	<li class="list-group-item club-item">
+		<a href="/club/<%= item.id %>/activity">
+            <img src="/img/logos/<%= item.name %>.png" alt="<%= item.name %>.png">
+            <div class="name"><%= item.name %></div>
+        </a>
 	</li>
 	<% }); %>
 </ul>
