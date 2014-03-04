@@ -3,7 +3,7 @@ var db = require("../db");
 
 var Model = function(table){
 	this.table = table;
-	this.db = db.connection;
+	this.db = db.getConnection();
 };
 
 
