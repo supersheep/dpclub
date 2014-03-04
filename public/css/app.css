@@ -23,8 +23,11 @@
 	color: #999;
 }
 
-#club-list{
+#main{
 	margin-top: 70px;
+}
+
+#club-list{
 	border-right: 1px solid #eee;
 	border-bottom: 1px solid #eee;
 }
@@ -56,7 +59,8 @@
 }
 
 .club-item img{
-	width: 100%
+	width: 100%;
+	height: 65px;
 }
 
 .club-item .name{
