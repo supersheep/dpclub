@@ -2,7 +2,7 @@
 <ul class="list-group">
 	<% items.forEach(function(item){ %>
 	<li class="list-group-item">
-		<a href="/activity/<%= item.id %>"><%= item.title %><span class="time"><%= item.time %></span></a>
+		<a href="/activity/<%= item.id %>"><span class="name"><%= item.title %></span><span class="time"><%= item.time %></span></a>
 	</li>
 	<% }); %>
 </ul>
