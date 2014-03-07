@@ -209,7 +209,7 @@ var app = (function(){
             router_define = router.define;
             if(router_define.resolve){
                 router_define.resolve(router.params).then(function(deps){
-                    app.fire("resolved");
+                    app.fire && app.fire("resolved");
                     (app.controller(router_define.controller)).call(app,router,deps);
                 });
             }else{
@@ -295,14 +295,14 @@ var app = (function(){
         History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
             var State = History.getState(); // Note: We are using History.getState() instead of event.state
             var hash = State.hash;
-            self.fire("resolving");
+            self.fire && self.fire("resolving");
             self.dispatch(hash);
         });
 
         self.dispatch(location.pathname + location.search);
     }
 
-    Ev.mixin(App);
+    window.Ev && Ev.mixin(App);
 
 
     return function(){

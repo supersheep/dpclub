@@ -1,11 +1,11 @@
 var dpclub = app();
 
-dpclub.on("resolving", function(){
+dpclub.on && dpclub.on("resolving", function(){
     $(".loading").show();
 });
 
 
-dpclub.on("resolved", function(){
+dpclub.on && dpclub.on("resolved", function(){
     $(".loading").hide();
 });
 
