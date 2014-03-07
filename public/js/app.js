@@ -1,5 +1,14 @@
 var dpclub = app();
 
+dpclub.on("resolving", function(){
+    $(".loading").show();
+});
+
+
+dpclub.on("resolved", function(){
+    $(".loading").hide();
+});
+
 dpclub.controller("home",function(router,deps){
     $("#main").empty();
     var html = dpclub.render(deps.template,{

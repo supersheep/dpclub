@@ -34,7 +34,7 @@ var app = (function(){
         }
         return ret;
     }
-    
+
     /**
      * parse params from router.origin
      * @param  {[type]} router [description]
@@ -54,7 +54,7 @@ var app = (function(){
         }
 
         return params;
-    }   
+    }
 
     function promiseList(){
         var deferred = $.Deferred();
@@ -143,7 +143,7 @@ var app = (function(){
         if(typeof value == "string"){
             for(var key in params){
                 value = value.replace(new RegExp("\\:" + key),params[key]);
-            }   
+            }
         }else{
             for(var item in value){
                 value[item] = resolveParams(value[item],params);
@@ -168,7 +168,7 @@ var app = (function(){
             var deferred = $.Deferred();
 
             return promiseMap({
-                data: (typeof def.data == "object") 
+                data: (typeof def.data == "object")
                     ? promiseMap(objectMap(def.data, dataPromiseWrapper))
                     : dataPromiseWrapper(def.data),
                 template:templatePromiseWrapper(def.template)
@@ -209,12 +209,13 @@ var app = (function(){
             router_define = router.define;
             if(router_define.resolve){
                 router_define.resolve(router.params).then(function(deps){
+                    app.fire("resolved");
                     (app.controller(router_define.controller)).call(app,router,deps);
                 });
             }else{
                 (app.controller(router_define.controller)).call(app,router);
             }
-            
+
         }
     }
 
@@ -266,7 +267,7 @@ var app = (function(){
         App.prototype[name] = function(){
             var args = arguments;
             if(args.length === 0 || (args.length === 1 && typeof args[0] == "string")){
-                return getter.apply(null,args);                
+                return getter.apply(null,args);
             }else{
                 return setter.apply(null,args);
             }
@@ -294,13 +295,16 @@ var app = (function(){
         History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
             var State = History.getState(); // Note: We are using History.getState() instead of event.state
             var hash = State.hash;
+            self.fire("resolving");
             self.dispatch(hash);
         });
 
         self.dispatch(location.pathname + location.search);
     }
 
-    
+    Ev.mixin(App);
+
+
     return function(){
         return new App();
     };
