@@ -31,21 +31,30 @@ MemberModel.getNameById = function(id,callback){
             if(results.length == 0){
                 request({
                     url:url,
-                    timeout: 1000
+                    timeout: 1500
                 },function(err,res,data){
+                    if(err){
+                        if(err.code == "ETIMEDOUT"){
+                            return callback("兽老师超时啦");
+                        }else{
+                            return callback("兽老师坏掉啦");
+                        }
+                    }
+
                     if(data === "查询失败"){
                         callback("工号不存在");
                     }else{
-                        if(err){
-                            return callback(err);
-                        }else{
-                            callback(null,data);
-                            db.query("insert into member set ?",{
-                                name:data,
-                                number:id,
-                                companyId:1
-                            });
-                        }
+                        db.query("insert into member set ?",{
+                            name:data,
+                            number:id,
+                            companyId:1
+                        },function(err){
+                            if(err){
+                                return callback(err);
+                            }else{
+                                return callback(null,data);
+                            }
+                        });
                     }
                 });
             }else{
