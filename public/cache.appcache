@@ -8,7 +8,6 @@ js/jquery-2.0.3.min.js
 js/history.min.js
 js/event.js
 css/bootstrap.min.css
-css/i/loading.gif
 
 # 需要在时间在线的文件
 NETWORK:
@@ -20,6 +19,7 @@ http://dpurl.cn/
 /js/template.js
 /js/app.js
 /css/app.css
+/css/i/loading.gif
 
 # 替代方案
 # FALLBACK:
