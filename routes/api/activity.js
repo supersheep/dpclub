@@ -8,7 +8,7 @@ exports.one = function(req,res){
 	},function(err,activity){
 		if(err){return res.send(500,err);}
 		if(!activity){return res.send(404,"not found");}
-		
+
 		res.send(200,activity);
 	});
 }
@@ -30,7 +30,8 @@ exports.checkins = function(req,res){
 	var activityId = req.params.id;
 
 	CheckinModel.find({
-		activityId:activityId
+		activityId:activityId,
+		$order:"desc"
 	},function(err,list){
 		if(err){return res.send(500,err);}
 		res.send(200,list);

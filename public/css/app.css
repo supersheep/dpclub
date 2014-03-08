@@ -19,7 +19,7 @@ body{
 	color: #fff;
 }
 
-.btn-primary, .btn-primary:hover{
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus{
 	background-color: #53cbaa;
 	border: none;
 }

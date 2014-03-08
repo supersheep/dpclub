@@ -17,7 +17,7 @@ ActicityModel.create = function(data,callback){
     }
 
     if(time < now){
-        return callback("活动时间应当晚于当前时间");   
+        return callback("活动时间应当晚于当前时间");
     }
 
     clubModel.one({
@@ -37,10 +37,10 @@ ActicityModel.create = function(data,callback){
         },function(err,result){
             if(err){return callback(err);}
             callback(null,result);
-        }); 
+        });
     }
 }
 
 ActicityModel.getHistoryByClubId = function(clubId,callback){
-    this.db.query("select * from " + this.table + " where clubId = ? order by id limit 0,50",clubId,callback);
+    this.db.query("select * from " + this.table + " where clubId = ? order by id desc limit 0,50",clubId,callback);
 }

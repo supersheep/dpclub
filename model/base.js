@@ -18,13 +18,23 @@ Model.prototype.one = function(where,cb){
 };
 
 Model.prototype.find = function(where,cb){
-	this.db.query("select * from " + this.table + " where ?", where, function(err,rows){
+	var order = where.$order == "asc" ? "asc" : "desc";
+	var by = where.$by || "id";
+
+	for(key in where){
+		if(key[0] == "$"){
+			delete where[key];
+		}
+	}
+
+	var query = this.db.query("select * from ?? where ? order by ?? " + order , [this.table, where, by], function(err,rows){
 		if(err){
 			return cb(err);
 		}else{
 			cb(null,rows);
 		}
 	});
+	console.log(query.sql);
 }
 
 Model.prototype.getAll = function(cb){

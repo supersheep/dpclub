@@ -34,17 +34,17 @@ exports.add = function(req,res,next){
 	}],function(err,data){
 		if(err){
 			if(err === "checked"){
-				return res.send(403,"already checked");
+				return res.send(403,"签过到了");
 			}else if(err == "memberId not found"){
-				return res.send(403,"memberId not found");
+				return res.send(403,"查无此人");
 			}else{
 				return res.send(500,err);
-			}	
+			}
 		}
 		return res.send(200,data);
 	});
 }
 
 exports.list = function(req,res,next){
-	
+
 }
