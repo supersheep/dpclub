@@ -56,9 +56,9 @@ var app = (function(){
         return params;
     }
 
-    function promiseList(){
+    function promiseList(array){
         var deferred = $.Deferred();
-        var promises = Array.prototype.slice.apply(arguments);
+        var promises = Array.prototype.slice.apply(array);
         var steps = promises.length;
         var ret = [];
         if(!steps){
@@ -305,11 +305,27 @@ var app = (function(){
     window.Ev && Ev.mixin(App);
 
 
-    return function(){
+    var _app = function(){
         return new App();
     };
+
+
+    _app.q = {
+        list: promiseList,
+        map: promiseMap
+    };
+
+    return _app;
 })();
 
+
+window.addEventListener("scroll",function(e){
+    if( window.scrollY > 0 ){
+        setTimeout(function(){
+            window.scrollTo(0,0);
+        },300);
+    }
+});
 
 
 /* date formatter */

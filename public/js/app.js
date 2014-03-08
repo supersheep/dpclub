@@ -1,5 +1,21 @@
 var dpclub = app();
 
+function convertImgToBase64(url, callback, outputFormat){
+    var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d'),
+        img = new Image;
+    img.onload = function(){
+        canvas.height = img.height;
+        canvas.width = img.width;
+        ctx.drawImage(img,0,0);
+        var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+        callback.call(this, dataURL);
+        // Clean up
+        canvas = null;
+    };
+    img.src = url;
+}
+
 dpclub.on && dpclub.on("resolving", function(){
     $(".loading").show();
 });
@@ -7,14 +23,36 @@ dpclub.on && dpclub.on("resolving", function(){
 
 dpclub.on && dpclub.on("resolved", function(){
     $(".loading").hide();
+    setTimeout(function(){
+        scrollTo(0,0);
+        $("#wrapper").get(0).scrollTop = 0
+    },10);
 });
 
 dpclub.controller("home",function(router,deps){
-    $("#main").empty();
-    var html = dpclub.render(deps.template,{
+    var main = $("#main");
+    var localHtml = localStorage.homeHtml;
+    var renderHtml = dpclub.render(deps.template,{
         items:deps.data
     });
-    $("#main").html(html);
+
+    function imageDataURLPromise(i, img){
+        var deferred = $.Deferred();
+        convertImgToBase64(img.src, function(dataUrl){
+            img.src = dataUrl;
+            deferred.resolve();
+        });
+        return deferred.promise();
+    }
+
+    main.empty();
+
+
+    main.html(localHtml || renderHtml);
+    var tempElem = $(renderHtml);
+    app.q.list( tempElem.find("img").map(imageDataURLPromise) ).then(function(){
+        localStorage.homeHtml = tempElem.html();
+    });
 });
 
 dpclub.controller("club",function(router,deps){
