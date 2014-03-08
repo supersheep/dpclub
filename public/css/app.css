@@ -38,12 +38,11 @@ body{
 #wrapper{
 	overflow-y: auto;
 	-webkit-overflow-scrolling : touch;
-	height: 482px;
 }
 
 #main{
+	height: 100%;
 	padding-top: 70px;
-	min-height: 492px;
 	padding-bottom: 60px;
 }
 

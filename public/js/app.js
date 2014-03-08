@@ -23,9 +23,15 @@ dpclub.on && dpclub.on("resolving", function(){
 
 dpclub.on && dpclub.on("resolved", function(){
     $(".loading").hide();
+    var wrapper = $("#wrapper");
+    var main = $("#main");
+    var winHeight = $(window).height() + 60;
+
+    wrapper.get(0).scrollTop = 0;
+    wrapper.css("height", winHeight);
+    main.css("height", winHeight + 10);
     setTimeout(function(){
         scrollTo(0,0);
-        $("#wrapper").get(0).scrollTop = 0
     },10);
 });
 
@@ -143,6 +149,7 @@ dpclub.controller("activity-qr",function(router,deps){
 
 dpclub.router({
     "/":{
+        cache: true,
         controller:"home",
         data:"/api/club",
         template:"/template/home.html"
@@ -153,6 +160,7 @@ dpclub.router({
         template:"/template/activity-list.html"
     },
     "/activity/create?club=:id":{
+        cache: true,
         controller:"activity-create",
         template:"/template/activity-create.html"
     },

@@ -56,6 +56,24 @@ var app = (function(){
         return params;
     }
 
+    var Cache = {
+        get: function(key, json){
+            var data = localStorage.getItem(key);
+            if(json){
+                try{
+                    data = JSON.parse(data);
+                }catch(e){
+                    data = null;
+                }
+            }
+            return data;
+        },
+        set: function(key, value, json){
+            var data = json ? JSON.stringify(value) : value;
+            return localStorage.setItem(key, data);
+        }
+    };
+
     function promiseList(array){
         var deferred = $.Deferred();
         var promises = Array.prototype.slice.apply(array);
@@ -101,36 +119,50 @@ var app = (function(){
     }
 
     /**
+     * given options `remoteFunc` and parseJSON, return a promise wrapping function
+     * @return {[type]} [description]
+     */
+    function promiseWrapperFactory(opt){
+        var parseJSON = opt.parseJSON === true;
+        var getData = opt.remoteFunc;
+        return function(url, useCache){
+            var deferred = $.Deferred();
+            var cache = Cache.get(url, parseJSON);
+            if(!url){
+                deferred.resolve();
+            }else{
+                if(cache && useCache){
+                    deferred.resolve(cache);
+                    getData(url,function(data){
+                        Cache.set(url, data, parseJSON);
+                    });
+                }else{
+                    getData(url,function(data){
+                        deferred.resolve(data);
+                        Cache.set(url, data, parseJSON);
+                    });
+                }
+            }
+            return deferred.promise();
+        }
+    }
+
+    /**
      * wrap get data as a promise
      * @return {[type]} [description]
      */
-    function dataPromiseWrapper(data){
-        var deferred = $.Deferred();
-        if(!data){
-            deferred.resolve();
-        }else{
-            $.getJSON(data,function(data){
-                deferred.resolve(data);
-            });
-        }
-        return deferred.promise();
-    }
+    var dataPromiseWrapper = promiseWrapperFactory({
+        remoteFunc:$.getJSON,
+        parseJSON:true
+    });
 
     /**
      * wrap get template as a promise
      * @return {[type]} [description]
      */
-    function templatePromiseWrapper(template){
-        var deferred = $.Deferred();
-        if(!template){
-            deferred.resolve(template);
-        }else{
-            $.get(template,function(tpl){
-                deferred.resolve(tpl);
-            });
-        }
-        return deferred.promise();
-    }
+    var templatePromiseWrapper = promiseWrapperFactory({
+        remoteFunc: $.get
+    });
 
     /**
      * str: a/:id params:{id:1} -> a/1
@@ -169,9 +201,11 @@ var app = (function(){
 
             return promiseMap({
                 data: (typeof def.data == "object")
-                    ? promiseMap(objectMap(def.data, dataPromiseWrapper))
-                    : dataPromiseWrapper(def.data),
-                template:templatePromiseWrapper(def.template)
+                    ? promiseMap(objectMap(def.data, function(url){
+                        return dataPromiseWrapper(url, define.cache);
+                    }))
+                    : dataPromiseWrapper(def.data, define.cache),
+                template:templatePromiseWrapper(def.template, define.cache)
             });
         }
     }
