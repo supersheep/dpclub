@@ -95,6 +95,7 @@ dpclub.controller("activity",function(router,deps){
 
     function logMember(){
         var memberId = prompt("工号：");
+        if(!memberId){return;}
         if(!memberId.match(/\d+/)){
             alert("工号总归要是数字吧同学");
             return;
