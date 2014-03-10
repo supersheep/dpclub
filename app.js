@@ -21,7 +21,7 @@ process.on("uncaughtException",function(e){
     var config = {
         to:"jiayi.xu@dianping.com",
         subject:"DPClub Error",
-        html: (new Date()).toString() + " <br />" + e.toString()
+        html: (new Date()).toString() + " <br />" + e.toString() + "<br />" + (e.stack || "")
     };
     mailer.send(config,function(){});
 });
