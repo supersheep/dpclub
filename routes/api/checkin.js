@@ -7,16 +7,29 @@ exports.add = function(req,res,next){
 	var memberId = req.body.memberId;
 	var activityId = req.body.activityId;
 
+
+	if(!memberId){
+		return res.send(403,"memberId required")
+	}
+
+	if(!activityId){
+		return res.send(403,"activityId required")
+	}
+
 	async.waterfall([function(done){
 		CheckinModel.isMemberCheckedToday(activityId,memberId,done);
 	},function(checkedToday,done){
 		if(checkedToday){return done("checked");}
-		MemberModel.getNameById(memberId,done); // request junyi's api
+		MemberModel.getNameById(memberId,function(err,data){
+			if(err){return done(err);}
+			done(null, data);
+		}); // request junyi's api
 	},function(memberName,done){
 		ActivityModel.find({
 			id:activityId
 		},function(err,result){
 			if(err){return done(err);}
+			if(!result[0]){return done("activity not found")}
 			done(null,memberName,result[0].clubId);
 		});
 	},function(memberName,clubId,done){
