@@ -51,6 +51,7 @@ app.get('/activity/:id/qr', home);
 
 app.get('/api/club', club.list);
 app.get('/api/club/:id/activity', club.activity);
+app.get('/api/club/:id/members', club.members);
 
 app.post('/api/activity/create', activity.create);
 app.get('/api/activity/:id', activity.one);

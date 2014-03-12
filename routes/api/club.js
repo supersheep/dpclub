@@ -1,6 +1,7 @@
 var CheckinModel = require("../../model/checkin");
 var ClubModel = require("../../model/club");
 var ActivityModel = require("../../model/activity");
+var db = require("../../db");
 
 exports.list = function(req,res){
     ClubModel.getAll(function(err,list){
@@ -14,5 +15,13 @@ exports.activity = function(req,res){
     ActivityModel.getHistoryByClubId(clubid,function(err,list){
         if(err){return res.send(500,err);}
          res.send(200,list);
+    });
+}
+
+exports.members = function(req,res){
+    var clubid = req.params.id;
+    ClubModel.distinctMember(clubid, function(err, members){
+        if(err){return res.send(500,err);}
+        res.send(200, members);
     });
 }
