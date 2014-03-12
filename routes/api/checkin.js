@@ -17,7 +17,7 @@ exports.add = function(req,res,next){
 	}
 
 	async.waterfall([function(done){
-		CheckinModel.isMemberCheckedToday(activityId,memberId,done);
+		CheckinModel.isMemberChecked(activityId,memberId,done);
 	},function(checkedToday,done){
 		if(checkedToday){return done("checked");}
 		MemberModel.getNameById(memberId,function(err,data){
