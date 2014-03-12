@@ -19,7 +19,7 @@ CheckinModel.isMemberChecked = function(activityId,memberId,callback){
     var now = new Date();
     this.db.query("select * from checkin where activityId=? and memberId=?",[activityId, memberId],function(err,data){
         if(err){return callback(err);}
-        callback(null,data.length);
+        callback(null, data.length > 0);
     });
 }
 

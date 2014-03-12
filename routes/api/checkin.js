@@ -1,6 +1,7 @@
 var CheckinModel = require("../../model/checkin");
 var MemberModel = require("../../model/member");
 var ActivityModel = require("../../model/activity");
+var logger = require("../../logger");
 var async = require("async");
 
 exports.add = function(req,res,next){
@@ -16,35 +17,58 @@ exports.add = function(req,res,next){
 		return res.send(403,"activityId required")
 	}
 
-	async.waterfall([function(done){
-		CheckinModel.isMemberChecked(activityId,memberId,done);
-	},function(checkedToday,done){
-		if(checkedToday){return done("checked");}
-		MemberModel.getNameById(memberId,function(err,data){
+	var clubId = null;
+	var memberName = null;
+	var memberGetError = null;
+	var insertData = null;
+	var tasks = [];
+
+	tasks.push(function getActivity(done){
+		async.parallel([
+			function(done){
+				CheckinModel.isMemberChecked(memberId, activityId, done)
+			},
+			function(done){
+				ActivityModel.find({
+					id:activityId
+				},function(err,result){
+					if(err){return done(err);}
+					if(!result[0]){return done("activity not found")}
+					done(null, result[0]);
+				});
+			}
+		], function(err, results){
+			logger.info("resultsssss", results);
 			if(err){return done(err);}
-			done(null, data);
-		}); // request junyi's api
-	},function(memberName,done){
-		ActivityModel.find({
-			id:activityId
-		},function(err,result){
-			if(err){return done(err);}
-			if(!result[0]){return done("activity not found")}
-			done(null,memberName,result[0].clubId);
+			if(results[0] == false){ done ("checked");}
+			clubId = results[1];
+			done(null);
 		});
-	},function(memberName,clubId,done){
-		CheckinModel.add({
+	});
+
+	tasks.push(function getMemberName(done){
+		MemberModel.getNameById(memberId,function(err,data){
+			if(err){
+				memberGetError = err  == "ETIMEDOUT" ? "兽老师超时啦" : "兽老师坏掉啦";
+			}
+
+			memberName = data;
+			done(null);
+		}); // request junyi's api
+	});
+
+	tasks.push(function addCheckin(done){
+		insertData = {
 			activityId:activityId,
 			clubId:clubId,
 			memberId:memberId,
 			memberName:memberName,
 			addDate:new Date()
-		},done);
-	},function(insertInfo,done){
-		CheckinModel.one({
-			id:insertInfo.insertId
-		},done);
-	}],function(err,data){
+		};
+		CheckinModel.add(insertData, done);
+	});
+
+	async.series(tasks, function(err, info){
 		if(err){
 			if(err === "checked"){
 				return res.send(403,"签过到了");
@@ -54,7 +78,12 @@ exports.add = function(req,res,next){
 				return res.send(500,err);
 			}
 		}
-		return res.send(200,data);
+
+		if(memberGetError){
+			return res.send(500, memberGetError);
+		}
+
+		return res.send(200, insertData);
 	});
 }
 

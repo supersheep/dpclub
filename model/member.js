@@ -34,7 +34,7 @@ MemberModel.getNameById = function(id,callback){
                     timeout: 1500
                 },function(err,res,data){
                     if(err){
-                        return callback( err.code == "ETIMEDOUT" ? "兽老师超时啦" : "兽老师坏掉啦");
+                        return callback(err);
                     }
 
                     if(data === "查询失败"){
