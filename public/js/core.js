@@ -251,7 +251,7 @@ var app = (function(){
                     (app.controller(router_define.controller)).call(app,router,deps);
                 }).fail(function(e){
                     alert("我坏掉了");
-                    console.log(e);
+                    console.error(e);
                 });
             }else{
                 (app.controller(router_define.controller)).call(app,router);

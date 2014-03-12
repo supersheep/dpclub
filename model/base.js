@@ -1,9 +1,11 @@
 var db = require("../db");
-
+var logger = require("../logger");
 
 var Model = function(table){
 	this.table = table;
-	this.db = db.getConnection();
+	this.__defineGetter__('db', function(){
+	    return db.getConnection();
+	});
 };
 
 
@@ -34,7 +36,7 @@ Model.prototype.find = function(where,cb){
 			cb(null,rows);
 		}
 	});
-	console.log(query.sql);
+	logger.info(query.sql);
 }
 
 Model.prototype.getAll = function(cb){

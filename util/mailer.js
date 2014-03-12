@@ -1,5 +1,6 @@
 var mailer = require("nodemailer");
 var config = require("../config");
+var logger = require("../logger");
 
 var transport = mailer.createTransport(config.mailer.provider,{
     auth:{
@@ -19,9 +20,9 @@ exports.send = function(config,callback){
         html:config.html
     },function(err,responses){
         if(err){
-            console.error("sendmail - error:",err);
+            logger.error("sendmail - error:",err);
         }else{
-            console.log("send - success:",responses);
+            logger.info("send - success:",responses);
         }
 
         callback(err, responses);
