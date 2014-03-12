@@ -1,6 +1,9 @@
 var Model = require("./base");
 var CheckinModel = new Model("checkin");
 var hook = require("../util/webhook");
+var logger = require("../logger");
+
+
 
 module.exports = CheckinModel;
 
@@ -15,12 +18,12 @@ CheckinModel.add = function(data,callback){
     });
 }
 
-CheckinModel.isMemberChecked = function(activityId,memberId,callback){
-    var now = new Date();
-    this.db.query("select * from checkin where activityId=? and memberId=?",[activityId, memberId],function(err,data){
+CheckinModel.isMemberChecked = function(memberId, activityId, callback){
+    var query = this.db.query("select * from checkin where activityId=? and memberId=?", [activityId, memberId],function(err,data){
         if(err){return callback(err);}
         callback(null, data.length > 0);
     });
+    logger.info(query.sql);
 }
 
 CheckinModel.getHistoryByClubId = function(clubId,callback){

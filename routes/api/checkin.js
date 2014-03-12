@@ -23,7 +23,7 @@ exports.add = function(req,res,next){
 	var insertData = null;
 	var tasks = [];
 
-	tasks.push(function getActivity(done){
+	tasks.push(function getActivity(alldone){
 		async.parallel([
 			function(done){
 				CheckinModel.isMemberChecked(memberId, activityId, done)
@@ -38,11 +38,10 @@ exports.add = function(req,res,next){
 				});
 			}
 		], function(err, results){
-			logger.info("resultsssss", results);
-			if(err){return done(err);}
-			if(results[0] == false){ done ("checked");}
-			clubId = results[1];
-			done(null);
+			if(err){return alldone(err);}
+			if(results[0]){ return alldone ("checked");}
+			clubId = results[1].clubId;
+			alldone(null);
 		});
 	});
 
