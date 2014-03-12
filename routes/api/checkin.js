@@ -86,6 +86,16 @@ exports.add = function(req,res,next){
 	});
 }
 
+exports.batchadd = function(req,res){
+	res.send(200,[{
+		memberId: 9000032,
+		memberName: "abcabc"
+	},{
+		memberId: 999999,
+		memberName: "qweqwe"
+	}]);
+}
+
 exports.list = function(req,res,next){
 
 }

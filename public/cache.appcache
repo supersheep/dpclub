@@ -1,11 +1,12 @@
 CACHE MANIFEST
 
-# VERSION 0.7
+# VERSION 0.9
 
 # 直接缓存的文件
 CACHE:
 js/jquery-2.0.3.min.js
 js/history.min.js
+js/bootstrap.min.js
 js/event.js
 css/bootstrap.min.css
 

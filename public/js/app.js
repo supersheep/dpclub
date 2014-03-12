@@ -76,24 +76,85 @@ dpclub.controller("club",function(router,deps){
 
 dpclub.controller("activity",function(router,deps){
 
-    var items =  deps.data.checkin || [];
-
+    var checkins =  deps.data.checkin || [];
+    var members = [];
     var template = deps.template;
-
+    var batch_modal = null;
     function render(){
         var main = $("#main");
         main.empty();
         main.html(dpclub.render(template,{
             activity:deps.data.activity,
-            items:items.map(function(item){
+            checkins:checkins.map(function(item){
                 item.time = new Date(item.addDate).format("yyyy-MM-dd hh:mm");
                 return item
             })
         }));
         $("#btn-checkin").on("click",logMember);
+        $("#btn-batch-checkin").on("click",loadMembers);
+        $("#batch-checkin-modal .btn-primary").on("click", function(){
+            var data = $("#batch-checkin-modal .checked").map(function(e){
+                return {
+                    id: $(this).attr("data-id"),
+                    name: $(this).text()
+                };
+            }).get();
+
+            batchLogMember(data);
+        });
     }
 
-    function logMember(){
+    function memberChecked(member){
+        return checkins.some(function(item){
+            return item.memberId == member.memberId;
+        });
+    }
+
+    function loadMembers(){
+        var member_template = '<ul class="list-group">'+
+        '<% members.forEach(function(member){ %>'+
+            '<li class="list-group-item" data-id="<%= member.memberId %>"><%= member.memberName %></li>'+
+        '<% }); %>'
+        '</ul>';
+
+        $(".loading").show();
+        $.getJSON("/api/club/" + deps.data.activity.clubId + "/members").done(function(members){
+            members = members.filter(function(member){
+                return member.memberName && !memberChecked(member);
+            });
+
+            batch_modal = $("#batch-checkin-modal");
+
+            batch_modal.find(".modal-body").html(dpclub.render(member_template,{
+                members: members
+            }));
+            batch_modal.find(".list-group-item").click(function(){
+                $(this).toggleClass("checked");
+            });
+            $(".loading").hide();
+        }, "json");
+    }
+
+    function batchLogMember(members){
+        $("#batch-checkin-modal").modal("hide");
+        $(".loading").show();
+        $.post("/api/checkin/batchadd",{
+            members: JSON.stringify(members)
+        }).done(function(results){
+            $(".loading").hide();
+            $("#batch-checkin-modal").modal("hide").on('hidden.bs.modal',function(){
+
+                results.forEach(function(data){
+                    checkins.unshift(data);
+                });
+                render();
+            });
+        }).fail(function(xhr){
+            alert(xhr.responseText);
+        });;
+    }
+
+    function logMember(memberId){
         var memberId = prompt("工号：");
         if(!memberId){return;}
         if(!memberId.match(/\d+/)){
@@ -104,7 +165,7 @@ dpclub.controller("activity",function(router,deps){
             memberId:memberId,
             activityId:deps.data.activity.id
         }).done(function(data){
-            items.unshift(data);
+            checkins.unshift(data);
             render();
         }).fail(function(xhr){
             alert(xhr.responseText);

@@ -58,6 +58,7 @@ app.get('/api/activity/:id', activity.one);
 app.get('/api/activity/:id/checkin', activity.checkins);
 
 app.post('/api/checkin/add', checkin.add);
+app.post('/api/checkin/batchadd', checkin.batchadd);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

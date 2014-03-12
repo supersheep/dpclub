@@ -1,9 +1,26 @@
 <h4 class="text-center" style="margin-bottom:20px" ><%= activity.title %></h4>
 <button id="btn-checkin" class="btn btn-default btn-primary" id="btn-create-activity" type="button" data-toggle="collapse">签到</button>
+<button id="btn-batch-checkin" class="btn btn-default btn-primary" id="btn-create-activity" type="button" data-toggle="modal" data-target="#batch-checkin-modal">批量签到</button>
 <a  class="btn btn-default btn-primary" href="/activity/<%= activity.id %>/qr">二维码</a>
 <ul class="list-group">
-	<% items.forEach(function(item){ %>
+	<% checkins.forEach(function(item){ %>
 	<li class="list-group-item"><%= item.memberName %>(<%= item.memberId %>)<span class="time"><%= item.time %></span>
 	</li>
 	<% }); %>
 </ul>
+<div class="modal fade" id="batch-checkin-modal" tabindex="-1" role="dialog" aria-labelledby="batch-checkin-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="batch-checkin-label">批量签到</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">保存</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>

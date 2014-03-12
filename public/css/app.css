@@ -143,6 +143,11 @@ body{
 	margin-left: -30px;
 }
 
+.modal .checked{
+	background-color: #53cbaa;
+	color: #fff;
+}
+
 @media print{
 	nav,.btn{
 		display: none !important;
