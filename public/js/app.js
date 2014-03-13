@@ -21,6 +21,10 @@ dpclub.on && dpclub.on("resolving", function(){
 });
 
 
+dpclub.on && dpclub.on("error", function(e){
+    alert("我坏掉了：" + JSON.stringify(e) );
+})
+
 dpclub.on && dpclub.on("resolved", function(){
     $(".loading").hide();
     var wrapper = $("#wrapper");
@@ -119,6 +123,7 @@ dpclub.controller("activity",function(router,deps){
 
         $(".loading").show();
         $.getJSON("/api/club/" + deps.data.activity.clubId + "/members").done(function(members){
+            $(".loading").hide();
             members = members.filter(function(member){
                 return member.memberName && !memberChecked(member);
             });
@@ -128,7 +133,7 @@ dpclub.controller("activity",function(router,deps){
             batch_modal.find(".modal-body").html(dpclub.render(member_template,{
                 members: members
             }));
-            batch_modal.find(".list-group-item").click(function(){
+            batch_modal.find(".list-group-item").on("touchend",function(){
                 $(this).toggleClass("checked");
             });
             $(".loading").hide();

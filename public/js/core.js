@@ -250,8 +250,7 @@ var app = (function(){
                     app.fire && app.fire("resolved");
                     (app.controller(router_define.controller)).call(app,router,deps);
                 }).fail(function(e){
-                    alert("我坏掉了");
-                    console.error(e);
+                    app.fire && app.fire("error", e);
                 });
             }else{
                 (app.controller(router_define.controller)).call(app,router);
