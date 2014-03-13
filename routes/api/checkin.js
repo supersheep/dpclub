@@ -87,13 +87,53 @@ exports.add = function(req,res,next){
 }
 
 exports.batchadd = function(req,res){
-	res.send(200,[{
-		memberId: 9000032,
-		memberName: "abcabc"
-	},{
-		memberId: 999999,
-		memberName: "qweqwe"
-	}]);
+	var members = req.body.members;
+	var activityId = req.body.activityId;
+	var clubId = null;
+	var tasks = [];
+	var newCheckins = [];
+	try{
+		members = JSON.parse(members);
+	}catch(e){
+		members = [];
+	}
+
+	tasks.push(function validateActivity(done){
+		ActivityModel.find({
+			id:activityId
+		},function(err,result){
+			if(err){return done(err);}
+			if(!result[0]){return done("activity not found");}
+			clubId = result[0].clubId;
+			done(null);
+		});
+	});
+
+	members.forEach(function(member){
+		tasks.push(function checkinMember(done){
+			CheckinModel.isMemberChecked(member.id, activityId, function(err, checked){
+				if(err){return done(err);}
+				if(checked){return done(null);}
+				var insertData = {
+					activityId:activityId,
+					clubId:clubId,
+					memberId:member.id,
+					memberName:member.name,
+					addDate:new Date()
+				};
+				CheckinModel.add(insertData, function(err){
+					if(err){return done(err);}
+					newCheckins.push(insertData);
+					done(null);
+				});
+			});
+		});
+	});
+
+	async.series(tasks,function(err){
+		if(err){return res.send(500,err);}
+		res.send(200,newCheckins);
+	});
 }
 
 exports.list = function(req,res,next){

@@ -139,7 +139,8 @@ dpclub.controller("activity",function(router,deps){
         $("#batch-checkin-modal").modal("hide");
         $(".loading").show();
         $.post("/api/checkin/batchadd",{
-            members: JSON.stringify(members)
+            members: JSON.stringify(members),
+            activityId: deps.data.activity.id
         }).done(function(results){
             $(".loading").hide();
             $("#batch-checkin-modal").modal("hide").on('hidden.bs.modal',function(){
