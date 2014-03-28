@@ -45,7 +45,9 @@ MemberModel.getNameById = function(id,callback){
                         name:data,
                         number:id,
                         companyId:1
-                    },callback);
+                    },function(){
+                        callback(null,data);
+                    });
                 });
             }else{
                 callback(null,results[0].name)

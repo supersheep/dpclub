@@ -8,11 +8,18 @@ var member = require("./model/member")
 
 var conn = db.getConnection();
 
-conn.query("select * from checkin where memberName=\"[object Object]\"", function(err,rows){
+
+var tasks = [];
+
+tasks.push(removeEmptyMember);
+
+
+conn.query("select * from checkin where memberName=\"[object Object]\" or memberName=\"\" or memberName=\"0\" or `memberName` IS NULL", function(err,rows){
+
     if(err){
         return cb(err);
     }else{
-        var tasks = [];
+
         rows.forEach(function(row){
             tasks.push(function(done){
                 update(row,done);
@@ -29,11 +36,21 @@ conn.query("select * from checkin where memberName=\"[object Object]\"", functio
     }
 });
 
+function removeEmptyMember(done){
+    conn.query("delete from checkin where memberId=\"0\"",done);
+}
 
 function update(row,done){
     var id = row.memberId;
+    console.log(row);
     member.getNameById(id,function(err,name){
-        if(err){return done(err);}
+        if(err){
+            if(err == "工号不存在"){
+                console.log(err, id);
+            }else{
+                return done(err);
+            }
+        }
         var query = "update checkin set memberName=\"" + name + "\" where id=" + row.id;
         console.log(query);
         conn.query(query,function(){
