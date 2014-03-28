@@ -52,12 +52,12 @@ app.get('/activity/create', home);
 app.get('/activity/:id', home);
 app.get('/activity/:id/qr', home);
 
-app.get('/api/club:format?', multiFormat, club.list);
+app.get('/api/club', multiFormat, club.list);
 app.get('/api/club/:id/activity:format?', multiFormat, club.activity);
 app.get('/api/club/:id/members:format?', multiFormat, club.members);
 
-app.post('/api/activity/create:format?', multiFormat, activity.create);
-app.get('/api/activity/:id:format?', multiFormat, activity.one);
+app.post('/api/activity/create', activity.create);
+app.get('/api/activity/:id', multiFormat, activity.one);
 app.get('/api/activity/:id/checkin:format?', multiFormat, activity.checkins);
 
 app.post('/api/checkin/add', checkin.add);

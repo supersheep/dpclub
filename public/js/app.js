@@ -133,7 +133,7 @@ dpclub.controller("activity",function(router,deps){
             batch_modal.find(".modal-body").html(dpclub.render(member_template,{
                 members: members
             }));
-            batch_modal.find(".list-group-item").on("touchend",function(){
+            batch_modal.find(".list-group-item").on("click",function(){
                 $(this).toggleClass("checked");
             });
             $(".loading").hide();

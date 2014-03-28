@@ -22,7 +22,7 @@ exports.create = function(req,res){
         time:data.time
 	},function(err,result){
 		if(err){return res.send(500,err);}
-		res.formatSend(200,result);
+		res.send(200,result);
 	});
 }
 
