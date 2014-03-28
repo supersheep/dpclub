@@ -328,8 +328,10 @@ var app = (function(){
         var self = this;
 
         $(document).delegate("a","click",function(){
-            self.locate($(this).attr("href"));
-            return false;
+            if($(this).attr("data-origin-link") === undefined){
+                self.locate($(this).attr("href"));
+                return false;
+            }
         });
         // Bind to StateChange Event
         History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
