@@ -6,9 +6,11 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var expressValidator = require('express-validator')
 
 var checkin = require("./routes/api/checkin");
 var club = require("./routes/api/club");
+var multiFormat = require("./middleware/multiFormat");
 var activity = require("./routes/api/activity");
 
 var home = require("./routes/home");
@@ -34,6 +36,7 @@ app.use(express.favicon());
 app.use(express.logger( process.env.NODE_ENV == "product" ? 'default' : 'dev'));
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(expressValidator());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -49,13 +52,13 @@ app.get('/activity/create', home);
 app.get('/activity/:id', home);
 app.get('/activity/:id/qr', home);
 
-app.get('/api/club', club.list);
-app.get('/api/club/:id/activity', club.activity);
-app.get('/api/club/:id/members', club.members);
+app.get('/api/club:format?', multiFormat, club.list);
+app.get('/api/club/:id/activity:format?', multiFormat, club.activity);
+app.get('/api/club/:id/members:format?', multiFormat, club.members);
 
-app.post('/api/activity/create', activity.create);
-app.get('/api/activity/:id', activity.one);
-app.get('/api/activity/:id/checkin', activity.checkins);
+app.post('/api/activity/create:format?', multiFormat, activity.create);
+app.get('/api/activity/:id:format?', multiFormat, activity.one);
+app.get('/api/activity/:id/checkin:format?', multiFormat, activity.checkins);
 
 app.post('/api/checkin/add', checkin.add);
 app.post('/api/checkin/batchadd', checkin.batchadd);

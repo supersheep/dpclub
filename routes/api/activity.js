@@ -9,7 +9,7 @@ exports.one = function(req,res){
 		if(err){return res.send(500,err);}
 		if(!activity){return res.send(404,"not found");}
 
-		res.send(200,activity);
+		res.formatSend(200,activity);
 	});
 }
 
@@ -22,7 +22,7 @@ exports.create = function(req,res){
         time:data.time
 	},function(err,result){
 		if(err){return res.send(500,err);}
-		res.send(200,result);
+		res.formatSend(200,result);
 	});
 }
 
@@ -34,6 +34,6 @@ exports.checkins = function(req,res){
 		$order:"desc"
 	},function(err,list){
 		if(err){return res.send(500,err);}
-		res.send(200,list);
+		res.formatSend(200,list);
 	});
 }
