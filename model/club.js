@@ -11,6 +11,6 @@ ClubModel.distinctMember = function(clubId, callback){
 }
 
 ClubModel.checkins = function(clubId, callback){
-    var query = this.db.query("select memberName,`activity`.`title`,`activity`.`time`  from checkin,activity where checkin.clubId=? and `activity`.`id` = checkin.`activityId` order by activity.id", clubId, callback);
+    var query = this.db.query("select memberId,memberName,`activity`.`title`,`activity`.`time`  from checkin,activity where checkin.clubId=? and `activity`.`id` = checkin.`activityId` order by activity.id", clubId, callback);
     logger.info(query.sql);
 }
