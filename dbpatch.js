@@ -14,7 +14,7 @@ var tasks = [];
 tasks.push(removeEmptyMember);
 
 
-conn.query("select * from checkin where memberName=\"[object Object]\" or memberName=\"\" or memberName=\"0\" or `memberName` IS NULL", function(err,rows){
+conn.query("select * from checkin where memberName=\"[object Object]\" or memberName="undefined" or memberName=\"\" or memberName=\"0\" or `memberName` IS NULL", function(err,rows){
 
     if(err){
         return cb(err);
