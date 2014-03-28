@@ -47,6 +47,7 @@ function update(row,done){
         if(err){
             if(err == "工号不存在"){
                 console.log(err, id);
+                return done(null);
             }else{
                 return done(err);
             }
