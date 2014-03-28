@@ -55,6 +55,7 @@ app.get('/activity/:id/qr', home);
 app.get('/api/club', multiFormat, club.list);
 app.get('/api/club/:id/activity:format?', multiFormat, club.activity);
 app.get('/api/club/:id/members:format?', multiFormat, club.members);
+app.get('/api/club/:id/checkins:format?', multiFormat, club.checkins);
 
 app.post('/api/activity/create', activity.create);
 app.get('/api/activity/:id', multiFormat, activity.one);

@@ -17,7 +17,7 @@ var parsers = {
             return _.values(item).map(function(val){
                 var format = "General";
                 if(isTime(val)){
-                    format = "mm-dd-yy";
+                    format = "yyyy-mm-dd";
                 }
                 return {value: val, formatCode: format};
             });

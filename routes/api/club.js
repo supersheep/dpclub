@@ -25,3 +25,11 @@ exports.members = function(req,res){
         res.formatSend(200, members);
     });
 }
+
+exports.checkins = function(req,res){
+    var clubid = req.params.id;
+    ClubModel.checkins(clubid, function(err, list){
+        if(err){return res.send(500,err);}
+        res.formatSend(200, list);
+    });
+}
