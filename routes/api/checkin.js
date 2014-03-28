@@ -1,3 +1,4 @@
+"use strict";
 var CheckinModel = require("../../model/checkin");
 var MemberModel = require("../../model/member");
 var ActivityModel = require("../../model/activity");
@@ -49,6 +50,14 @@ exports.add = function(req,res,next){
 		MemberModel.getNameById(memberId,function(err,data){
 			if(err){
 				memberGetError = err  == "ETIMEDOUT" ? "兽老师超时啦" : "兽老师坏掉啦";
+			}
+
+			if(typeof data !== "string"){
+				var d = JSON.stringify(data)
+				if(!d){
+					d = data.toString();
+				}
+				memberGetError = "没想到的类型错误：" + d;
 			}
 
 			memberName = data;
