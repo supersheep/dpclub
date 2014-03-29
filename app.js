@@ -33,13 +33,16 @@ app.set('port', process.env.PORT || 3011);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.favicon());
+app.use(express.compress());
 app.use(express.logger( process.env.NODE_ENV == "product" ? 'default' : 'dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(expressValidator());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'),{
+    maxAge : 24 * 60 * 60 * 1000
+}));
 
 // development only
 if ('development' == app.get('env')) {
