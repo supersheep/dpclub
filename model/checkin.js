@@ -26,6 +26,10 @@ CheckinModel.isMemberChecked = function(memberId, activityId, callback){
     logger.info(query.sql);
 }
 
+CheckinModel.removeFromActivity = function(activityId, callback){
+    var query = this.db.query("delete from checkin where activityId=?", [activityId], callback);
+}
+
 CheckinModel.getHistoryByClubId = function(clubId,callback){
     this.db.query("select * from " + this.table + " where clubId = ? order by id limit 0,50",clubId,callback);
 }

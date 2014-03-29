@@ -13,6 +13,16 @@ exports.one = function(req,res){
 	});
 }
 
+exports.delete = function(req,res,next){
+	var id = req.params.id;
+	CheckinModel.removeFromActivity(id, function(err){
+		if(err){return next(err);}
+		ActivityModel.removeById(id, function(err){
+			if(err){return next(err);}
+			res.send(200,"ok");
+		});
+	});
+}
 
 exports.create = function(req,res){
 	var data = req.body;

@@ -94,6 +94,7 @@ dpclub.controller("activity",function(router,deps){
                 return item
             })
         }));
+        $("#remove-activity").on("click",removeActivity);
         $("#btn-checkin").on("click",logMember);
         $("#btn-batch-checkin").on("click",loadMembers);
         $("#batch-checkin-modal .btn-primary").on("click", function(){
@@ -112,6 +113,21 @@ dpclub.controller("activity",function(router,deps){
         return checkins.some(function(item){
             return item.memberId == member.memberId;
         });
+    }
+
+    function removeActivity(){
+        var id = deps.data.activity.id;
+        var clubId = deps.data.activity.clubId;
+        var sure = confirm("确认要删除活动么");
+        if(sure){
+            $.ajax({
+                method:"delete",
+                url:"/api/activity/" + id,
+                success:function(){
+                    dpclub.locate("/club/" + clubId + "/activity");
+                }
+            });
+        }
     }
 
     function loadMembers(){

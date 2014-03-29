@@ -59,6 +59,7 @@ app.get('/api/club/:id/checkins:format?', multiFormat, club.checkins);
 
 app.post('/api/activity/create', activity.create);
 app.get('/api/activity/:id', multiFormat, activity.one);
+app.delete('/api/activity/:id', activity.delete);
 app.get('/api/activity/:id/checkin:format?', multiFormat, activity.checkins);
 
 app.post('/api/checkin/add', checkin.add);
