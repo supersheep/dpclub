@@ -48,19 +48,19 @@ exports.add = function(req,res,next){
 
 	tasks.push(function getMemberName(done){
 		MemberModel.getNameById(memberId,function(err,data){
+			memberName = data;
 			if(err){
 				memberGetError = err  == "ETIMEDOUT" ? "兽老师超时啦" : "兽老师坏掉啦";
-			}
-
-			if(typeof data !== "string"){
+				memberName = "";
+			}else if(typeof data !== "string"){
 				var d = JSON.stringify(data)
-				if(!d){
+				if(!d && data){
 					d = data.toString();
 				}
+				memberName = "";
 				memberGetError = "没想到的类型错误：" + d;
 			}
 
-			memberName = data;
 			done(null);
 		}); // request junyi's api
 	});
