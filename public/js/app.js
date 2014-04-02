@@ -233,7 +233,6 @@ dpclub.controller("activity-qr",function(router,deps){
 
 dpclub.router({
     "/":{
-        cache: true,
         controller:"home",
         data:"/api/club",
         template:"/template/home.html"
