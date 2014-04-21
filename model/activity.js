@@ -42,9 +42,9 @@ ActicityModel.create = function(data,callback){
 }
 
 ActicityModel.getHistoryByClubId = function(clubId,callback){
-    this.db.query("select * from " + this.table + " where clubId = ? order by id desc limit 0,50",clubId,callback);
+    this.db.query("select * from " + this.table + " where clubId = ? and removed is NULL order by id desc limit 0,50",clubId,callback);
 }
 
 ActicityModel.removeById = function(id, callback){
-    this.db.query("delete from activity where id=?",id,callback);
+    this.db.query("update activity set removed=1 where id=?",id,callback);
 }

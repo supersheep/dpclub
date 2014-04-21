@@ -4,7 +4,7 @@ var logger = require("../logger");
 var Model = function(table){
 	this.table = table;
 	this.__defineGetter__('db', function(){
-	    return db.getConnection();
+		return db.getConnection();
 	});
 };
 
@@ -29,7 +29,7 @@ Model.prototype.find = function(where,cb){
 		}
 	}
 
-	var query = this.db.query("select * from ?? where ? order by ?? " + order , [this.table, where, by], function(err,rows){
+	var query = this.db.query("select * from ?? where ? and removed is null order by ?? " + order , [this.table, where, by], function(err,rows){
 		if(err){
 			return cb(err);
 		}else{
