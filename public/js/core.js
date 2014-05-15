@@ -368,6 +368,7 @@ Date.prototype.format =function(format){
     "h+" : this.getHours(), //hour
     "m+" : this.getMinutes(), //minute
     "s+" : this.getSeconds(), //second
+    "D+" : this.getDay(),
     "q+" : Math.floor((this.getMonth()+3)/3), //quarter
     "S" : this.getMilliseconds() //millisecond
     }

@@ -86,6 +86,10 @@ dpclub.controller("activity",function(router,deps){
     var batch_modal = null;
     function render(){
         var main = $("#main");
+        deps.data.activity.time = new Date(deps.data.activity.time).format("yyyy-MM-dd hh:mm 星期D").replace(/星期(\d)/,function(){
+            var weeks = "天一二三四五六";
+            return "星期" + weeks[arguments[1]];
+        });
         main.empty();
         main.html(dpclub.render(template,{
             activity:deps.data.activity,
